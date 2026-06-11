@@ -38,8 +38,19 @@
 
 #include <stddef.h>
 
+/* include fuse_lowlevel.h first with correct API version,
+   before squashfuse/config.h overrides FUSE_USE_VERSION to 26 */
+#define FUSE_USE_VERSION 30
+#include <fuse_lowlevel.h>
+
 #include <squashfuse/ll.h>
 #include <squashfuse/fuseprivate.h>
+
+/* squashfuse/config.h overrides FUSE_USE_VERSION, restore it */
+#ifdef FUSE_USE_VERSION
+#undef FUSE_USE_VERSION
+#endif
+#define FUSE_USE_VERSION 30
 
 extern dev_t sqfs_makedev(int maj, int min);
 
