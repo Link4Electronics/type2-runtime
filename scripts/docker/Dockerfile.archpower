@@ -1,0 +1,14 @@
+ARG ARCH=ppc64le
+FROM kth5/archpower:latest-${ARCH}
+
+# Arch POWER equivalent of the Alpine packages listed in build.sh
+# install-dependencies.sh builds libfuse and squashfuse from source (distro-agnostic)
+RUN pacman -Syu --noconfirm \
+    base-devel clang util-linux strace file autoconf automake libtool xz bash \
+    meson zstd zlib
+
+COPY scripts/common/install-dependencies.sh /tmp/scripts/common/install-dependencies.sh
+COPY patches/ /tmp/patches/
+
+WORKDIR /tmp
+RUN bash scripts/common/install-dependencies.sh

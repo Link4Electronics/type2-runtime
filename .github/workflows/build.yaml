@@ -34,6 +34,8 @@ jobs:
           runner: ubuntu-24.04-arm
         - appimage_arch: aarch64
           runner: ubuntu-24.04-arm
+        - appimage_arch: ppc64le
+          runner: ubuntu-24.04
 
     runs-on: ${{ matrix.runner }}
 
@@ -84,6 +86,8 @@ jobs:
           runner: ubuntu-24.04-arm
         - alpine_arch: aarch64
           runner: ubuntu-24.04-arm
+        - alpine_arch: ppc64le
+          runner: ubuntu-24.04
 
     runs-on: ${{ matrix.runner }}
 

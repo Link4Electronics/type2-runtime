@@ -23,6 +23,15 @@ case "${ARCH}" in
     aarch64)
         docker_platform=linux/arm64/v8
         ;;
+    ppc64le)
+        docker_platform=linux/ppc64le
+        ;;
+    ppc64)
+        docker_platform=linux/ppc64
+        ;;
+    ppc)
+        docker_platform=linux/ppc
+        ;;
     *)
         echo "Unsupported architecture: $ARCH"
         exit 3
@@ -34,7 +43,14 @@ image_name=type2-runtime-build
 # first, we need to build the image
 # if nothing has changed, it'll run over this within a few seconds
 repo_root_dir="$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")"/../../
-docker build --platform "$docker_platform" -t "$image_name" -f "$repo_root_dir"/scripts/docker/Dockerfile "$repo_root_dir"
+if [[ "${ARCH}" == ppc64le || "${ARCH}" == ppc64 ]]; then
+    dockerfile="Dockerfile.archpower"
+    build_args=("--build-arg" "ARCH=${ARCH}")
+else
+    dockerfile="Dockerfile"
+    build_args=()
+fi
+docker build --platform "$docker_platform" "${build_args[@]}" -t "$image_name" -f "$repo_root_dir/scripts/docker/$dockerfile" "$repo_root_dir"
 
 docker_run_args=()
 [[ -t 0 ]] && docker_run_args+=("-t")

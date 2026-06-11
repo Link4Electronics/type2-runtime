@@ -22,6 +22,7 @@ To run a build, use the following command:
 > env ALPINE_ARCH=i686    chroot/chroot_build.sh
 > env ALPINE_ARCH=armhf   chroot/chroot_build.sh
 > env ALPINE_ARCH=aarch64 chroot/chroot_build.sh
+> env ALPINE_ARCH=ppc64le chroot/chroot_build.sh
 ```
 
 The script will download an Alpine miniroot image, extract it into a specific location, bind-mount a set of temporary filesystems (e.g., `/proc`) there, chroot into there and run the build script. It attempts to unmount the previously mounted paths again.
@@ -43,6 +44,9 @@ The build process has been automated completely. As a user, you just need to run
 ```sh
 > env ARCH=<arch> scripts/build-with-docker.sh
 ```
+
+For ppc64le and ppc64, the build uses `kth5/archpower` (Arch POWER) as the base image.
+All other architectures use Alpine Linux.
 
 The resulting AppImages will end up in your current working directory.
 
